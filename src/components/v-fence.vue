@@ -62,7 +62,7 @@
               <v-row>
                 Толщина прутка
               </v-row>
-              <v-row class="justify-space-around">
+              <v-row class="justify-space-between ">
                 <button v-for="item in btnBarThickness" :key="item.id"
                         :class="[
                                 { 'btn-items-size_selected': item.selected },
@@ -134,9 +134,54 @@ export default {
      priceGalvanic:{
        "1030x2500": {
          "3": 676,
-         "3-3,8": 850,
+         "3,5": 852,
+         "3/3,8": 850,
          "3,8": 1090,
-         "4,8": 1450
+         "4,0": 988,
+         "4,5": 1164,
+         "4,8": 1450,
+         "5,0": 1495
+       },
+       "1530x2500": {
+         "3": 995,
+         "3,5": 1255,
+         "3/3,8": 1150,
+         "3,8": 1490,
+         "4,0": 1443,
+         "4,5": 1710,
+         "4,8": 2110,
+         "5,0": 2171
+       },
+       "1730x2500": {
+         "3": 1086,
+         "3,5": 1372,
+         "3/3,8": 1240,
+         "3,8": 1610,
+         "4,0": 1586,
+         "4,5": 1872,
+         "4,8": 2350,
+         "5,0": 2386
+       },
+       "2030x2500": {
+         "3": 1313,
+         "3,5": 1651,
+         "3/3,8": 1420,
+         "3,8": 1788,
+         "4,0": 1905,
+         "4,5": 2249,
+         "4,8": 2550,
+         "5,0": 2867
+       }
+       ,
+       "2430x2500": {
+         "3": 1495,
+         "3,5": 1885,
+         "3/3,8": 1710,
+         "3,8": 2290,
+         "4,0": 2184,
+         "4,5": 2587,
+         "4,8": 3250,
+         "5,0": 3296
        }
 
      },
@@ -174,24 +219,48 @@ export default {
               section: "",
               selected: false
           },
+        {
+          id: 2,
+          name: "3,5 мм",
+          section: "",
+          selected: false
+        },
           {
-              id: 2,
+              id: 3,
               name: "3-3,8 мм",
               section: "",
               selected: false
           },
           {
-              id: 3,
+              id: 4,
               name: "3,8 мм",
               section: "",
               selected: false
           },
           {
-              id: 4,
-              name: "4,8 мм",
+              id: 5,
+              name: "4,0 мм",
               section: "",
               selected: false
           },
+        {
+          id: 6,
+          name: "4,5 мм",
+          section: "",
+          selected: false
+        },
+        {
+          id: 7,
+          name: "4,8 мм",
+          section: "",
+          selected: false
+        },
+        {
+          id: 8,
+          name: "5 мм",
+          section: "",
+          selected: false
+        },
       ],
     commodityItems: [
       {
@@ -337,6 +406,7 @@ export default {
   color: white;
 }
 .btn-items-size_selected{
+  margin: 6px 18px;
     background-color: #5cb071;
     font-size: 12px;
     color: white;
@@ -344,8 +414,9 @@ export default {
     width: 90px;
     text-transform: uppercase;
     border-radius: 5px;
-}
+ }
 .btn-items-size {
+  margin: 6px 18px;
   background-color: white;
   font-size: 12px;
   color: #5cb071;
