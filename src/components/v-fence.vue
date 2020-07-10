@@ -122,7 +122,7 @@
                 <label>
                   <input class="input-number" type="number" v-model="value"   @change="calculating()"/>
                 </label>
-                <span>Вы выбрали {{ total }} секций </span>
+                <span>Итого {{ total }} секций {{totalLength}} м.</span>
 
                 <div class="my-4 justify-start text-left">
                   <p>Цена:{{ oneSection }} руб./секция</p>
@@ -159,6 +159,8 @@ export default {
   name: "v-fence",
 
   data: () => ({
+    oneLength:0,
+    totalLength:0,
     value: 0,
     oneSection: 0,
     // если выбрано цвет то правда , если галваник то ложь
@@ -272,11 +274,11 @@ export default {
       }
     },
     sizeSection: [
-      { id: 1, innId:"1030x2500", name: "1,03 м x 2,5 м",  selected: false },
-      { id: 2, innId:"1530x2500",name: "1,53 м x 2,5 м",  selected: false },
-      { id: 3,innId:"1730x2500", name: "1,73 м x 2,5 м",  selected: false },
-      { id: 4, innId:"2030x2500", name: "2,03 м x 2,5 м",  selected: false },
-      { id: 5,innId:"2430x2500", name: "2,4 м x 2,5 м",  selected: false }
+      { id: 1, innId:"1030x2500", name: "1,03 м x 2,5 м", length:1030, selected: false },
+      { id: 2, innId:"1530x2500",name: "1,53 м x 2,5 м", length:1530, selected: false },
+      { id: 3,innId:"1730x2500", name: "1,73 м x 2,5 м",  length:1730,selected: false },
+      { id: 4, innId:"2030x2500", name: "2,03 м x 2,5 м", length:2030, selected: false },
+      { id: 5,innId:"2430x2500", name: "2,4 м x 2,5 м", length:2430, selected: false }
     ],
     btnBarThicknessPaint: [
       {
@@ -446,11 +448,13 @@ export default {
   methods: {
     calculating() {
       if (!this.flagSection) {
+        this.totalLength = this.oneLength*this.value/1000
         let result = this.priceGalvanic[this.flagSizeSection]
              result = result[this.flagBarThickness]
         this.oneSection = result
         this.resultSection = this.value*result
       } else {
+        this.totalLength = this.oneLength*this.value/1000
         let result = this.pricePaint[this.flagSizeSection]
         result = result[this.flagBarThickness]
         this.oneSection = result
@@ -458,12 +462,9 @@ export default {
       }
     },
     clearAllSection(){
-      this.value = 0
-      this.oneSection = 0
+
       this.resultSection = 0
       this.flagBarThickness = ""
-      this.flagSizeSection = ""
-      this.clearAllButton(this.sizeSection)
       this.clearAllButton(this.btnBarThickness)
       this.clearAllButton(this.btnBarThicknessPaint);
     },
@@ -483,6 +484,7 @@ export default {
     changeSizeSection(sizeBar) {
       this.clearAllButton(this.sizeSection);
       this.flagSizeSection = this.sizeSection[sizeBar - 1].innId;
+      this.oneLength = this.sizeSection[sizeBar - 1].length;
       if(this.btnBarThickness){
         this.calculating()
       }
