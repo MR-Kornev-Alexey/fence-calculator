@@ -61,9 +61,9 @@
               <v-row>
                 Толщина прутка
               </v-row>
-              <v-row  v-if="!flagSection" class="justify-space-between ">
+              <v-row  v-if="flagSection" class="justify-space-between ">
                 <button
-                        v-for="item in btnBarThicknessPain"
+                        v-for="item in btnBarThicknessPaint"
                         :key="item.id"
                         :class="[
                     { 'btn-items-size_selected': item.selected },
@@ -75,7 +75,7 @@
                 </button>
               </v-row>
 
-              <v-row  v-if="flagSection" class="justify-space-between ">
+              <v-row  v-if="!flagSection" class="justify-space-between ">
                 <button
                   v-for="item in btnBarThickness"
                   :key="item.id"
@@ -219,6 +219,58 @@ export default {
         "5,0": 3296
       }
     },
+    pricePaint: {
+      "1030x2500": {
+        "3,2": 910,
+        "3,7": 981.5,
+        "3,2/4": 998,
+        "4": 1180,
+        "4,2": 1183,
+        "4,7": 1397.5,
+        "5": 1640,
+        "5,2": 1677
+      },
+      "1530x2500": {
+        "3,2": 1110,
+        "3,7": 1443,
+        "3,2/4": 1349,
+        "4": 1625,
+        "4,2": 1742,
+        "4,7": 2060.5,
+        "5": 2278,
+        "5,2": 2470
+      },
+      "1730x2500": {
+        "3,2": 1320,
+        "3,7": 1605.5,
+        "3,2/4": 1480,
+        "4": 1799,
+        "4,2": 1937,
+        "4,7": 2294.5,
+        "5": 2530,
+        "5,2": 2749.5
+      },
+      "2030x2500": {
+        "3,2": 1443,
+        "3,7": 1911,
+        "3,2/4": 1810,
+        "4": 2070,
+        "4,2": 2301,
+        "4,7": 2723.5,
+        "5": 2996,
+        "5,2": 3477.5
+      },
+      "2430x2500": {
+        "3,2": 1822,
+        "3,7": 2229.5,
+        "3,2/4": 2015,
+        "4": 2509,
+        "4,2": 2691,
+        "4,7": 3185,
+        "5": 3529,
+        "5,2": 3770
+      }
+    },
     sizeSection: [
       { id: 1, innId:"1030x2500", name: "1,03 м x 2,5 м",  selected: false },
       { id: 2, innId:"1530x2500",name: "1,53 м x 2,5 м",  selected: false },
@@ -226,7 +278,7 @@ export default {
       { id: 4, innId:"2030x2500", name: "2,03 м x 2,5 м",  selected: false },
       { id: 5,innId:"2430x2500", name: "2,4 м x 2,5 м",  selected: false }
     ],
-    btnBarThicknessPain: [
+    btnBarThicknessPaint: [
       {
         id: 1,
         innId:"3,2",
@@ -393,20 +445,34 @@ export default {
   },
   methods: {
     calculating() {
-      if (this.flagSection) {
+      if (!this.flagSection) {
         let result = this.priceGalvanic[this.flagSizeSection]
              result = result[this.flagBarThickness]
         this.oneSection = result
         this.resultSection = this.value*result
       } else {
-        this.resultSection = this.value*500
+        let result = this.pricePaint[this.flagSizeSection]
+        result = result[this.flagBarThickness]
+        this.oneSection = result
+        this.resultSection = this.value*result
       }
     },
+    clearAllSection(){
+      this.value = 0
+      this.oneSection = 0
+      this.resultSection = 0
+      this.flagBarThickness = ""
+      this.flagSizeSection = ""
+      this.clearAllButton(this.sizeSection)
+      this.clearAllButton(this.btnBarThickness)
+      this.clearAllButton(this.btnBarThicknessPaint);
+    },
     changeGalvanic() {
-       return (this.flagSection = false);
+      this.clearAllSection()
+      return (this.flagSection = false);
     },
     changeColor() {
-      this.calculating()
+      this.clearAllSection()
       return (this.flagSection = true);
     },
     clearAllButton(array) {
@@ -424,12 +490,21 @@ export default {
       return (this.sizeSection[sizeBar - 1].selected = true);
     },
     changeBarThickness(sizeBar) {
-      this.clearAllButton(this.btnBarThickness);
-     this.flagBarThickness = this.btnBarThickness[sizeBar - 1].innId;
-      if(this.flagSizeSection){
-        this.calculating()
+      if(!this.flagSection){
+        this.clearAllButton(this.btnBarThickness);
+        this.flagBarThickness = this.btnBarThickness[sizeBar - 1].innId;
+        if(this.flagSizeSection){
+          this.calculating()
+        }
+        return (this.btnBarThickness[sizeBar - 1].selected = true);
+      }else {
+        this.clearAllButton(this.btnBarThicknessPaint);
+        this.flagBarThickness = this.btnBarThicknessPaint[sizeBar - 1].innId;
+        if(this.flagSizeSection){
+          this.calculating()
+        }
+        return (this.btnBarThicknessPaint[sizeBar - 1].selected = true);
       }
-      return (this.btnBarThickness[sizeBar - 1].selected = true);
     }
   }
 };
