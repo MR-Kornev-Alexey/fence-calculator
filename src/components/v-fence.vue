@@ -92,9 +92,22 @@
 
             </v-row>
             <v-row>
-              <v-col >
-                Цена: {{resultSection}} руб. / секция
-              </v-col>
+              <div class="wrapper d-block">
+
+                <label class="mb-4">
+                  <input  type="range" min="0" max="100" step="1" v-model="value">
+                </label>
+               <span >Вы выбрали {{total}} секций </span>
+
+              <div class="my-4 justify-start text-left">
+                <p>
+                  Цена:{{oneSection}} руб./секция
+                </p>
+                <p>
+                  Общая цена: {{resultSection}} руб./секция
+                </p>
+              </div>
+              </div>
             </v-row>
             <v-row>
               <button class="btn-items_selected">
@@ -125,6 +138,8 @@ export default {
   name: "v-fence",
 
   data: () => ({
+    value: 0,
+    oneSection: 0,
       // если выбрано цвет то правда , если галваник то ложь
     flagSection: true,
    // толщина прутка
@@ -314,6 +329,11 @@ export default {
       }
     ]
   }),
+  computed: {
+    total: function () {
+      return this.value * 10
+    }
+  },
  methods: {
      changeGalvanic(){
          return  this.flagSection = false;
@@ -446,5 +466,13 @@ export default {
     text-transform: uppercase;
     border-radius: 5px;
     margin: 6px 0;
+}
+.wrapper{
+label{
+  margin: 20px 20px;
+}
+  span{
+    margin: 20px 20px;
+  }
 }
 </style>
