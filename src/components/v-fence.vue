@@ -89,11 +89,17 @@
                       {{item.name}}
                   </button>
               </v-row>
-              <v-row>
-                <button class="btn-items_selected">
-                  Далее
-                </button>
-              </v-row>
+
+            </v-row>
+            <v-row>
+              <v-col >
+                Цена: {{resultSection}} руб. / секция
+              </v-col>
+            </v-row>
+            <v-row>
+              <button class="btn-items_selected">
+                Далее
+              </button>
             </v-row>
           </div>
         </v-row>
@@ -116,14 +122,24 @@
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "v-fence",
 
   data: () => ({
       // если выбрано цвет то правда , если галваник то ложь
     flagSection: true,
    // толщина прутка
+    resultSection:0,
       flagBarThickness: "",
       flagSizeSection: "",
+     priceGalvanic:{
+       "1030x2500": {
+         "3": 676,
+         "3-3,8": 850,
+         "3,8": 1090,
+         "4,8": 1450
+       }
+
+     },
       sizeSection:[
           {   id: 1,
               name: "1,03 м x 2,5 м",
