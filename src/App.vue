@@ -1,14 +1,13 @@
 <template>
   <v-app>
     <v-app-bar app color="#5cb071" dark>
-      <div class="d-flex align-center">
-       </div>
+      <div class="d-flex align-center"></div>
 
       <v-spacer></v-spacer>
     </v-app-bar>
 
     <v-main>
-      <v-fence/>
+      <v-fence />
     </v-main>
   </v-app>
 </template>
