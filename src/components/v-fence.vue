@@ -143,10 +143,11 @@
           Вы выбрали:
         </v-flex>
         <table class="table-out " id="customers" v-if="tableEstimate">
-          <tr v-for="item in outEstimate" :key="item">
-            <td class="td-name">{{ item.name }} {{ item.size }}</td>
-            <td>{{ item.number }} шт.</td>
-            <td>{{ item.price }} руб.</td>
+          <tr v-for="item in outEstimate" :key="item.id">
+            <td class="td-icon"><v-icon @click="itemDelete(item.id)">mdi-close</v-icon></td>
+            <td class="td-name"> {{ item.name }} {{ item.size }} |  {{ item.thickness }} мм</td>
+            <td class="td-number">{{ item.number }} шт.</td>
+            <td class="td-number">{{ item.price }} руб.</td>
           </tr>
         </table>
       </v-col>
@@ -450,6 +451,11 @@ export default {
     }
   },
   methods: {
+    itemDelete(item){
+      this.tableEstimate = false
+      delete this.outEstimate[item]
+      this.tableEstimate = true
+    },
     calculating() {
       this.tableEstimate = false
       if (!this.flagSection) {
@@ -458,9 +464,11 @@ export default {
              result = result[this.flagBarThickness]
         this.oneSection = result
         this.resultSection = this.value*result
-        this.outEstimate[this.titlePaint+this.flagSizeSection] =
-                { name: "Оцинкованая секция",
+        this.outEstimate[this.titleGalvanic+this.flagSizeSection] =
+                { id:this.titleGalvanic+this.flagSizeSection,
+                  name: "Оцинкованая секция",
                   size: this.flagSizeSection,
+                  thickness:this.flagBarThickness,
                   number: this.value,
                   price: this.resultSection
                 }
@@ -525,15 +533,23 @@ export default {
 <style lang="scss">
   .td-name{
     font-size: 12px;
+    width: 44%;
 
+  }
+  .td-icon{
+    width: 6%;
+    cursor: pointer;
+  }
+  .td-number{
+    width: 25%;
   }
 .table-out {
   width: 100%;
+
   tr td {
     padding: 8px 0;
     border-bottom: 1px solid #5cb071;
-    width: 33%;
-    text-align: center;
+   text-align: center;
   }
 }
 .btn-items_selected {
