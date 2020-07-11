@@ -301,7 +301,7 @@ export default {
       {
         id: 3,
         innId:"3,2/4",
-        name: "3,2/8 мм",
+        name: "3,2/4 мм",
         selected: false
       },
       {
@@ -479,6 +479,15 @@ export default {
         result = result[this.flagBarThickness]
         this.oneSection = result
         this.resultSection = this.value*result
+        this.outEstimate[this.titlePaint+this.flagSizeSection] =
+                { id:this.titlePaint+this.flagSizeSection,
+                  name: "Полимерная секция",
+                  size: this.flagSizeSection,
+                  thickness:this.flagBarThickness,
+                  number: this.value,
+                  price: this.resultSection
+                }
+        this.tableEstimate = true
       }
     },
     clearAllSection(){
