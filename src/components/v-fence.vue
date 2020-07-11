@@ -142,11 +142,11 @@
         <v-flex class="choice-title ">
           Вы выбрали:
         </v-flex>
-        <table class="table-out " id="customers">
-          <tr v-for="item in commodityItems" :key="item.id">
-            <td>{{ item.name }}</td>
-            <td>шт.</td>
-            <td>руб.</td>
+        <table class="table-out " id="customers" v-if="tableEstimate">
+          <tr v-for="item in outEstimate" :key="item">
+            <td class="td-name">{{ item.name }} {{ item.size }}</td>
+            <td>{{ item.number }} шт.</td>
+            <td>{{ item.price }} руб.</td>
           </tr>
         </table>
       </v-col>
@@ -159,10 +159,14 @@ export default {
   name: "v-fence",
 
   data: () => ({
+    outEstimate:{},
+    tableEstimate: true,
     oneLength:0,
     totalLength:0,
     value: 0,
     oneSection: 0,
+    titlePaint:"titlePaint",
+    titleGalvanic:"titleGalvanic",
     // если выбрано цвет то правда , если галваник то ложь
     flagSection: true,
     // толщина прутка
@@ -447,12 +451,20 @@ export default {
   },
   methods: {
     calculating() {
+      this.tableEstimate = false
       if (!this.flagSection) {
         this.totalLength = this.oneLength*this.value/1000
         let result = this.priceGalvanic[this.flagSizeSection]
              result = result[this.flagBarThickness]
         this.oneSection = result
         this.resultSection = this.value*result
+        this.outEstimate[this.titlePaint+this.flagSizeSection] =
+                { name: "Оцинкованая секция",
+                  size: this.flagSizeSection,
+                  number: this.value,
+                  price: this.resultSection
+                }
+        this.tableEstimate = true
       } else {
         this.totalLength = this.oneLength*this.value/1000
         let result = this.pricePaint[this.flagSizeSection]
@@ -462,7 +474,6 @@ export default {
       }
     },
     clearAllSection(){
-
       this.resultSection = 0
       this.flagBarThickness = ""
       this.clearAllButton(this.btnBarThickness)
@@ -512,6 +523,10 @@ export default {
 };
 </script>
 <style lang="scss">
+  .td-name{
+    font-size: 12px;
+
+  }
 .table-out {
   width: 100%;
   tr td {
