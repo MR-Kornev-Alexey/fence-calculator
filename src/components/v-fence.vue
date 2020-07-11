@@ -8,16 +8,19 @@
         <v-row class="justify-start">
           <div v-for="item in commodityItems" :key="item.id">
             <button
+                    @click="changeCommodityItems(item.id)"
               :class="[
                 { 'btn-items_selected ': item.selected },
                 { 'btn-items ': !item.selected }
               ]"
             >
               {{ item.name }}
+
             </button>
           </div>
         </v-row>
-        <v-row class="mt-4">
+
+        <v-row  v-if="allSection" class="mt-4">
           <div
             class="col-md-4 d-flex justify-start text-left align-content-start"
           >
@@ -131,7 +134,7 @@
               </div>
             </v-row>
             <v-row>
-              <button class="btn-items_selected">
+              <button @click="further()" class="btn-items_selected">
                 Далее
               </button>
             </v-row>
@@ -160,6 +163,8 @@ export default {
   name: "v-fence",
 
   data: () => ({
+    flagFurther: 1,
+    allSection:true,
     outEstimate:{},
     tableEstimate: true,
     oneLength:0,
@@ -451,6 +456,27 @@ export default {
     }
   },
   methods: {
+    further(){
+     if (this.flagFurther < 7){
+        this.commodityItems[this.flagFurther-1].selected = false
+        this.commodityItems[this.flagFurther].selected = true
+        this.flagFurther = this.flagFurther + 1
+      }else{
+        this.flagFurther = 1
+        this.commodityItems[0].selected = true
+        this.commodityItems[6].selected = false
+      }
+    },
+
+   changeCommodityItems(item){
+      this.flagFurther = item
+      for(let index in this.commodityItems ){
+        if(index === item){
+          this.commodityItems[item-1].selected = true
+        }
+        this.commodityItems[index].selected = false
+      }
+    },
     itemDelete(item){
       this.tableEstimate = false
       delete this.outEstimate[item]
@@ -580,8 +606,8 @@ export default {
   margin: 0 1px;
 }
 .btn-items:hover {
-  background-color: white;
-  color: #5cb071;
+  background-color: #5cb071;
+  color: white;
   padding: 5px;
   border: 1px solid #5cb071;
 }
