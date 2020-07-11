@@ -8,19 +8,23 @@
         <v-row class="justify-start">
           <div v-for="item in commodityItems" :key="item.id">
             <button
-                    @click="changeCommodityItems(item.id)"
+              @click="changeCommodityItems(item.id)"
               :class="[
                 { 'btn-items_selected ': item.selected },
                 { 'btn-items ': !item.selected }
               ]"
             >
               {{ item.name }}
-
             </button>
           </div>
         </v-row>
-
-        <v-row  v-if="allSection" class="mt-4">
+        <v-pillar v-if="commodityItems[1].selected" />
+        <v-gate v-if="commodityItems[2].selected" />
+        <v-wicket v-if="commodityItems[3].selected" />
+        <v-bracing v-if="commodityItems[4].selected" />
+        <v-top v-if="commodityItems[5].selected" />
+        <v-wire v-if="commodityItems[6].selected" />
+        <v-row v-if="commodityItems[0].selected" class="mt-4">
           <div
             class="col-md-4 d-flex justify-start text-left align-content-start"
           >
@@ -64,21 +68,21 @@
               <v-row>
                 Толщина прутка
               </v-row>
-              <v-row  v-if="flagSection" class="justify-space-between ">
+              <v-row v-if="flagSection" class="justify-space-between ">
                 <button
-                        v-for="item in btnBarThicknessPaint"
-                        :key="item.id"
-                        :class="[
+                  v-for="item in btnBarThicknessPaint"
+                  :key="item.id"
+                  :class="[
                     { 'btn-items-size_selected': item.selected },
                     { 'btn-items-size': !item.selected }
                   ]"
-                        @click="changeBarThickness(item.id)"
+                  @click="changeBarThickness(item.id)"
                 >
                   {{ item.name }}
                 </button>
               </v-row>
 
-              <v-row  v-if="!flagSection" class="justify-space-between ">
+              <v-row v-if="!flagSection" class="justify-space-between ">
                 <button
                   v-for="item in btnBarThickness"
                   :key="item.id"
@@ -123,20 +127,20 @@
                   />
                 </label>
                 <label>
-                  <input class="input-number" type="number" v-model="value"   @change="calculating()"/>
+                  <input
+                    class="input-number"
+                    type="number"
+                    v-model="value"
+                    @change="calculating()"
+                  />
                 </label>
-                <span>Итого {{ total }} секций {{totalLength}} м.</span>
+                <span>Итого {{ total }} секций {{ totalLength }} м.</span>
 
                 <div class="my-4 justify-start text-left">
                   <p>Цена:{{ oneSection }} руб./секция</p>
                   <p>Общая цена: {{ resultSection }} руб.</p>
                 </div>
               </div>
-            </v-row>
-            <v-row>
-              <button @click="further()" class="btn-items_selected">
-                Далее
-              </button>
             </v-row>
           </div>
         </v-row>
@@ -147,32 +151,55 @@
         </v-flex>
         <table class="table-out " id="customers" v-if="tableEstimate">
           <tr v-for="item in outEstimate" :key="item.id">
-            <td class="td-icon"><v-icon @click="itemDelete(item.id)">mdi-close</v-icon></td>
-            <td class="td-name"> {{ item.name }} {{ item.size }} |  {{ item.thickness }} мм</td>
+            <td class="td-icon">
+              <v-icon @click="itemDelete(item.id)">mdi-close</v-icon>
+            </td>
+            <td class="td-name">
+              {{ item.name }} {{ item.size }} | {{ item.thickness }} мм
+            </td>
             <td class="td-number">{{ item.number }} шт.</td>
             <td class="td-number">{{ item.price }} руб.</td>
           </tr>
         </table>
       </v-col>
     </v-row>
+    <v-row>
+      <button @click="further()" class="btn-items_selected">
+        Далее
+      </button>
+    </v-row>
   </v-container>
 </template>
 
 <script>
+import vPillar from "./v-pillar/v-pillar";
+import vGate from "./v-gate/v-gate";
+import vWicket from "./v-wicket/v-wicket";
+import vBracing from "./v-bracing/v-bracing";
+import vTop from "./v-top/v-top";
+import vWire from "./v-wire/v-wire";
 export default {
   name: "v-fence",
-
+  components: {
+    vPillar,
+    vGate,
+    vWicket,
+    vBracing,
+    vTop,
+    vWire
+  },
   data: () => ({
     flagFurther: 1,
-    allSection:true,
-    outEstimate:{},
+    allSection: true,
+    allPillar: false,
+    outEstimate: {},
     tableEstimate: true,
-    oneLength:0,
-    totalLength:0,
+    oneLength: 0,
+    totalLength: 0,
     value: 0,
     oneSection: 0,
-    titlePaint:"titlePaint",
-    titleGalvanic:"titleGalvanic",
+    titlePaint: "titlePaint",
+    titleGalvanic: "titleGalvanic",
     // если выбрано цвет то правда , если галваник то ложь
     flagSection: true,
     // толщина прутка
@@ -284,58 +311,88 @@ export default {
       }
     },
     sizeSection: [
-      { id: 1, innId:"1030x2500", name: "1,03 м x 2,5 м", length:1030, selected: false },
-      { id: 2, innId:"1530x2500",name: "1,53 м x 2,5 м", length:1530, selected: false },
-      { id: 3,innId:"1730x2500", name: "1,73 м x 2,5 м",  length:1730,selected: false },
-      { id: 4, innId:"2030x2500", name: "2,03 м x 2,5 м", length:2030, selected: false },
-      { id: 5,innId:"2430x2500", name: "2,4 м x 2,5 м", length:2430, selected: false }
+      {
+        id: 1,
+        innId: "1030x2500",
+        name: "1,03 м x 2,5 м",
+        length: 1030,
+        selected: false
+      },
+      {
+        id: 2,
+        innId: "1530x2500",
+        name: "1,53 м x 2,5 м",
+        length: 1530,
+        selected: false
+      },
+      {
+        id: 3,
+        innId: "1730x2500",
+        name: "1,73 м x 2,5 м",
+        length: 1730,
+        selected: false
+      },
+      {
+        id: 4,
+        innId: "2030x2500",
+        name: "2,03 м x 2,5 м",
+        length: 2030,
+        selected: false
+      },
+      {
+        id: 5,
+        innId: "2430x2500",
+        name: "2,4 м x 2,5 м",
+        length: 2430,
+        selected: false
+      }
     ],
     btnBarThicknessPaint: [
       {
         id: 1,
-        innId:"3,2",
+        innId: "3,2",
         name: "3,2 мм",
         selected: false
       },
       {
         id: 2,
-        innId:"3,7",
+        innId: "3,7",
         name: "3,7 мм",
         selected: false
       },
       {
         id: 3,
-        innId:"3,2/4",
+        innId: "3,2/4",
         name: "3,2/4 мм",
         selected: false
       },
       {
         id: 4,
-        innId:"4",
+        innId: "4",
         name: "4 мм",
         selected: false
       },
       {
         id: 5,
-        innId:"4,2",
+        innId: "4,2",
         name: "4,2 мм",
         selected: false
       },
       {
         id: 6,
-        innId:"4,7",
+        innId: "4,7",
         name: "4,7 мм",
         selected: false
       },
       {
         id: 7,
-        innId:"5",
+        innId: "5",
         name: "5 мм",
         selected: false
       },
       {
         id: 8,
-        innId:"5,2",
+        innId: "5,2",
         name: "5,2 мм",
         selected: false
       }
@@ -343,56 +400,56 @@ export default {
     btnBarThickness: [
       {
         id: 1,
-        innId:"3",
+        innId: "3",
         name: "3 мм",
         section: "",
         selected: false
       },
       {
         id: 2,
-        innId:"3,5",
+        innId: "3,5",
         name: "3,5 мм",
         section: "",
         selected: false
       },
       {
         id: 3,
-        innId:"3/3,8",
+        innId: "3/3,8",
         name: "3-3,8 мм",
         section: "",
         selected: false
       },
       {
         id: 4,
-        innId:"3,8",
+        innId: "3,8",
         name: "3,8 мм",
         section: "",
         selected: false
       },
       {
         id: 5,
-        innId:"4,0",
+        innId: "4,0",
         name: "4,0 мм",
         section: "",
         selected: false
       },
       {
         id: 6,
-        innId:"4,5",
+        innId: "4,5",
         name: "4,5 мм",
         section: "",
         selected: false
       },
       {
         id: 7,
-        innId:"4,8",
+        innId: "4,8",
         name: "4,8 мм",
         section: "",
         selected: false
       },
       {
         id: 8,
-        innId:"5,0",
+        innId: "5,0",
         name: "5 мм",
         section: "",
         selected: false
@@ -402,50 +459,36 @@ export default {
       {
         id: 1,
         name: "Секция",
-        vModel: "section",
-        section: "",
         selected: true
       },
       {
         id: 2,
         name: "Столб",
-        vModel: "pillar",
-        pillar: "",
         selected: false
       },
       {
         id: 3,
         name: "Ворота",
-        vModel: "gate",
-        gate: "",
         selected: false
       },
       {
         id: 4,
         name: "Калитка",
-        vModel: "wicket",
-        wicket: "",
         selected: false
       },
       {
         id: 5,
         name: "Крепления",
-        vModel: "binding",
-        binding: "",
         selected: false
       },
       {
         id: 6,
         name: "Навершина",
-        vModel: "top",
-        top: "",
         selected: false
       },
       {
         id: 7,
         name: "Егоза",
-        vModel: "wire",
-        wire: "",
         selected: false
       }
     ]
@@ -456,82 +499,82 @@ export default {
     }
   },
   methods: {
-    further(){
-     if (this.flagFurther < 7){
-        this.commodityItems[this.flagFurther-1].selected = false
-        this.commodityItems[this.flagFurther].selected = true
-        this.flagFurther = this.flagFurther + 1
-      }else{
-        this.flagFurther = 1
-        this.commodityItems[0].selected = true
-        this.commodityItems[6].selected = false
+    further() {
+      if (this.flagFurther < 7) {
+        this.commodityItems[this.flagFurther - 1].selected = false;
+        this.commodityItems[this.flagFurther].selected = true;
+        this.flagFurther = this.flagFurther + 1;
+      } else {
+        this.flagFurther = 1;
+        this.commodityItems[0].selected = true;
+        this.commodityItems[6].selected = false;
+      }
+    },
+    changeCommodityItems(item) {
+      for (let index = 0; index <= this.commodityItems.length; index++) {
+        if (index === item) {
+          this.commodityItems[item - 1].selected = true;
+          this.flagFurther = item;
+        }
+        this.commodityItems[index].selected = false;
       }
     },
 
-   changeCommodityItems(item){
-      this.flagFurther = item
-      for(let index in this.commodityItems ){
-        if(index === item){
-          this.commodityItems[item-1].selected = true
-        }
-        this.commodityItems[index].selected = false
-      }
-    },
-    itemDelete(item){
-      this.tableEstimate = false
-      delete this.outEstimate[item]
-      this.tableEstimate = true
+    itemDelete(item) {
+      this.tableEstimate = false;
+      delete this.outEstimate[item];
+      this.tableEstimate = true;
     },
     calculating() {
-      this.tableEstimate = false
+      this.tableEstimate = false;
       if (!this.flagSection) {
-        this.totalLength = this.oneLength*this.value/1000
-        let result = this.priceGalvanic[this.flagSizeSection]
-             result = result[this.flagBarThickness]
-        this.oneSection = result
-        this.resultSection = this.value*result
-        this.outEstimate[this.titleGalvanic+this.flagSizeSection] =
-                { id:this.titleGalvanic+this.flagSizeSection,
-                  name: "Оцинкованая секция",
-                  size: this.flagSizeSection,
-                  thickness:this.flagBarThickness,
-                  number: this.value,
-                  price: this.resultSection
-                }
-        this.tableEstimate = true
+        this.totalLength = (this.oneLength * this.value) / 1000;
+        let result = this.priceGalvanic[this.flagSizeSection];
+        result = result[this.flagBarThickness];
+        this.oneSection = result;
+        this.resultSection = this.value * result;
+        this.outEstimate[this.titleGalvanic + this.flagSizeSection] = {
+          id: this.titleGalvanic + this.flagSizeSection,
+          name: "Оцинкованая секция",
+          size: this.flagSizeSection,
+          thickness: this.flagBarThickness,
+          number: this.value,
+          price: this.resultSection
+        };
+        this.tableEstimate = true;
       } else {
-        this.totalLength = this.oneLength*this.value/1000
-        let result = this.pricePaint[this.flagSizeSection]
-        result = result[this.flagBarThickness]
-        this.oneSection = result
-        this.resultSection = this.value*result
-        this.outEstimate[this.titlePaint+this.flagSizeSection] =
-                { id:this.titlePaint+this.flagSizeSection,
-                  name: "Полимерная секция",
-                  size: this.flagSizeSection,
-                  thickness:this.flagBarThickness,
-                  number: this.value,
-                  price: this.resultSection
-                }
-        this.tableEstimate = true
+        this.totalLength = (this.oneLength * this.value) / 1000;
+        let result = this.pricePaint[this.flagSizeSection];
+        result = result[this.flagBarThickness];
+        this.oneSection = result;
+        this.resultSection = this.value * result;
+        this.outEstimate[this.titlePaint + this.flagSizeSection] = {
+          id: this.titlePaint + this.flagSizeSection,
+          name: "Полимерная секция",
+          size: this.flagSizeSection,
+          thickness: this.flagBarThickness,
+          number: this.value,
+          price: this.resultSection
+        };
+        this.tableEstimate = true;
       }
     },
-    clearAllSection(){
-      this.resultSection = 0
-      this.flagBarThickness = ""
-      this.clearAllButton(this.btnBarThickness)
+    clearAllSection() {
+      this.resultSection = 0;
+      this.flagBarThickness = "";
+      this.clearAllButton(this.btnBarThickness);
       this.clearAllButton(this.btnBarThicknessPaint);
     },
     changeGalvanic() {
-      this.clearAllSection()
+      this.clearAllSection();
       return (this.flagSection = false);
     },
     changeColor() {
-      this.clearAllSection()
+      this.clearAllSection();
       return (this.flagSection = true);
     },
     clearAllButton(array) {
-        for (let i = 0; i < array.length; i++) {
+      for (let i = 0; i < array.length; i++) {
         array[i].selected = false;
       }
     },
@@ -539,25 +582,25 @@ export default {
       this.clearAllButton(this.sizeSection);
       this.flagSizeSection = this.sizeSection[sizeBar - 1].innId;
       this.oneLength = this.sizeSection[sizeBar - 1].length;
-      if(this.btnBarThickness){
-        this.calculating()
+      if (this.btnBarThickness) {
+        this.calculating();
       }
 
       return (this.sizeSection[sizeBar - 1].selected = true);
     },
     changeBarThickness(sizeBar) {
-      if(!this.flagSection){
+      if (!this.flagSection) {
         this.clearAllButton(this.btnBarThickness);
         this.flagBarThickness = this.btnBarThickness[sizeBar - 1].innId;
-        if(this.flagSizeSection){
-          this.calculating()
+        if (this.flagSizeSection) {
+          this.calculating();
         }
         return (this.btnBarThickness[sizeBar - 1].selected = true);
-      }else {
+      } else {
         this.clearAllButton(this.btnBarThicknessPaint);
         this.flagBarThickness = this.btnBarThicknessPaint[sizeBar - 1].innId;
-        if(this.flagSizeSection){
-          this.calculating()
+        if (this.flagSizeSection) {
+          this.calculating();
         }
         return (this.btnBarThicknessPaint[sizeBar - 1].selected = true);
       }
@@ -566,25 +609,24 @@ export default {
 };
 </script>
 <style lang="scss">
-  .td-name{
-    font-size: 12px;
-    width: 44%;
-
-  }
-  .td-icon{
-    width: 6%;
-    cursor: pointer;
-  }
-  .td-number{
-    width: 25%;
-  }
+.td-name {
+  font-size: 12px;
+  width: 44%;
+}
+.td-icon {
+  width: 6%;
+  cursor: pointer;
+}
+.td-number {
+  width: 25%;
+}
 .table-out {
   width: 100%;
 
   tr td {
     padding: 8px 0;
     border-bottom: 1px solid #5cb071;
-   text-align: center;
+    text-align: center;
   }
 }
 .btn-items_selected {
