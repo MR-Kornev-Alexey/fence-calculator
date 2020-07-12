@@ -140,15 +140,15 @@ export default {
     ]
   }),
   methods: {
-    calcTotalPillar(type){
-      this.onePillar = this.pricePillar[this.flagLengthPillar][type]
-      this.resultPillar  = this.onePillar*this.valuePillar
+    calcTotalPillar(type) {
+      this.onePillar = this.pricePillar[this.flagLengthPillar][type];
+      this.resultPillar = this.onePillar * this.valuePillar;
     },
     calculatingPillar() {
       if (this.flagPillar) {
-        this.calcTotalPillar("RAL")
+        this.calcTotalPillar("RAL");
       } else {
-        this.calcTotalPillar("ZN")
+        this.calcTotalPillar("ZN");
       }
     },
     clearAllButtonPillar(array) {
@@ -157,19 +157,18 @@ export default {
       }
     },
     changeColorPillar() {
-      this.calcTotalPillar("RAL")
-      return this.flagPillar = true
-
+      this.calcTotalPillar("RAL");
+      return (this.flagPillar = true);
     },
     changeGalvanicPillar() {
-      this.calcTotalPillar("ZN")
-      return this.flagPillar = false
+      this.calcTotalPillar("ZN");
+      return (this.flagPillar = false);
     },
     changeLengthPillar(item) {
       this.clearAllButtonPillar(this.btnLengthPillar);
       this.flagLengthPillar = this.btnLengthPillar[item - 1].innId;
       this.btnLengthPillar[item - 1].selected = true;
-      this.calculatingPillar()
+      this.calculatingPillar();
     }
   }
 };
