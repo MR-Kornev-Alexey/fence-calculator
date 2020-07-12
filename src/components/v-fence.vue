@@ -6,14 +6,14 @@
         <v-row class="text-center justify-start mt-4">
             <v-col class="justify-start d-block" cols="12" md="8">
                 <v-row class="justify-start">
-                    <div :key="item.id" v-for="item in commodityItems">
+                    <div :key="`section-button-${index}`" v-for="(item, index) in commodityItems">
                         <button
                                 :class="[
-                { 'btn-items_selected ': item.selected },
-                { 'btn-items ': !item.selected }
-              ]"
-                                @click="changeCommodityItems(item.id)"
-                        >
+                                    { 'btn-items_selected ': item.selected },
+                                    { 'btn-items ': !item.selected }
+                                ]"
+                                @click="changeCommodityItems(index)"
+                             >
                             {{ item.name }}
                         </button>
                     </div>
@@ -190,7 +190,7 @@
             vWire
         },
         data: () => ({
-            flagFurther: 1,
+            flagFurther: 0,
             allSection: true,
             allPillar: false,
             outEstimate: {},
@@ -458,37 +458,37 @@
             ],
             commodityItems: [
                 {
-                    id: 1,
+                    id: 0,
                     name: "Секция",
                     selected: true
                 },
                 {
-                    id: 2,
+                    id: 1,
                     name: "Столб",
                     selected: false
                 },
                 {
-                    id: 3,
+                    id: 2,
                     name: "Ворота",
                     selected: false
                 },
                 {
-                    id: 4,
+                    id: 3,
                     name: "Калитка",
                     selected: false
                 },
                 {
-                    id: 5,
+                    id: 4,
                     name: "Крепления",
                     selected: false
                 },
                 {
-                    id: 6,
+                    id: 5,
                     name: "Навершина",
                     selected: false
                 },
                 {
-                    id: 7,
+                    id: 6,
                     name: "Егоза",
                     selected: false
                 }
@@ -501,12 +501,12 @@
         },
         methods: {
             further() {
-                if (this.flagFurther < 7) {
-                    this.commodityItems[this.flagFurther - 1].selected = false;
-                    this.commodityItems[this.flagFurther].selected = true;
+                if (this.flagFurther < 6) {
+                    this.commodityItems[this.flagFurther].selected = false;
+                    this.commodityItems[this.flagFurther+1].selected = true;
                     this.flagFurther = this.flagFurther + 1;
                 } else {
-                    this.flagFurther = 1;
+                    this.flagFurther = 0;
                     this.commodityItems[0].selected = true;
                     this.commodityItems[6].selected = false;
                 }
@@ -514,12 +514,13 @@
             changeCommodityItems(item) {
                 let index = 0;
 
-                while (index <= this.commodityItems.length) {
+                while (index < this.commodityItems.length) {
                     if (index === item) {
-                        this.commodityItems[item - 1].selected = true;
+                        this.commodityItems[item].selected = true;
                         this.flagFurther = item;
+                    } else {
+                        this.commodityItems[index].selected = false;
                     }
-                    this.commodityItems[index].selected = false;
                     index++;
                 }
             },
