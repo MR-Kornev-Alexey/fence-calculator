@@ -18,7 +18,7 @@
             </button>
           </div>
         </v-row>
-        <v-pillar  v-if="commodityItems[1].selected" />
+        <v-pillar v-if="commodityItems[1].selected" />
         <v-gate v-if="commodityItems[2].selected" />
         <v-wicket v-if="commodityItems[3].selected" />
         <v-bracing v-if="commodityItems[4].selected" />
