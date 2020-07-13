@@ -55,6 +55,9 @@
           </button>
         </v-row>
       </v-row>
+      <v-row v-if="error">
+        <span class="error">Такой столб не изготавливается! </span>
+      </v-row>
       <v-row>
         <div class="wrapper d-block">
           <label class="mb-4">
@@ -91,13 +94,24 @@
 <script>
 export default {
   name: "v-section",
+  props: {
+    estimatePillar: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
+  },
   data: () => ({
+    error: false,
     onePillar: 0,
     resultPillar: 0,
     totalPillar: 0,
     valuePillar: 0,
     flagPillar: true,
     flagLengthPillar: "",
+    flagPillarName: "",
+    flagColor: "",
     pricePillar: {
       "2000": {
         ZN: 790,
@@ -130,19 +144,41 @@ export default {
     },
 
     btnLengthPillar: [
-      { id: 1, innId: "2000", name: "2 м.", selected: false },
-      { id: 2, innId: "2200", name: "2,2 м.", selected: false },
-      { id: 3, innId: "2500", name: "2,5 м.", selected: false },
-      { id: 4, innId: "3000", name: "3 м.", selected: false },
-      { id: 5, innId: "f1500", name: "1,5 м.", selected: false },
-      { id: 6, innId: "f1700", name: "1,7 м.", selected: false },
-      { id: 7, innId: "f2000", name: "2,0 м.", selected: false }
+      { id: 0, innId: "2000", name: "2 м.", selected: false },
+      { id: 1, innId: "2200", name: "2,2 м.", selected: false },
+      { id: 2, innId: "2500", name: "2,5 м.", selected: false },
+      { id: 3, innId: "3000", name: "3 м.", selected: false },
+      { id: 4, innId: "f1500", name: "1,5 м.", selected: false },
+      { id: 5, innId: "f1700", name: "1,7 м.", selected: false },
+      { id: 6, innId: "f2000", name: "2,0 м.", selected: false }
     ]
   }),
   methods: {
     calcTotalPillar(type) {
-      this.onePillar = this.pricePillar[this.flagLengthPillar][type];
-      this.resultPillar = this.onePillar * this.valuePillar;
+      this.error = false
+      if (this.flagLengthPillar) {
+        this.onePillar = this.pricePillar[this.flagLengthPillar][type];
+        if(type==="ZN"&& this.onePillar === 0 ){
+          this.error = true
+          return "";
+        }
+        this.resultPillar = this.onePillar * this.valuePillar;
+        this.flagColor = type;
+        if (this.resultPillar > 0) {
+          this.sentToParent();
+        }
+      } else {
+        return "";
+      }
+    },
+    sentToParent() {
+      this.$emit("sentToParentEvent", {
+        id: this.flagColor + this.flagLengthPillar,
+        name: this.flagPillarName,
+        size: this.flagLengthPillar,
+        number: this.valuePillar,
+        price: this.resultPillar
+      });
     },
     calculatingPillar() {
       if (this.flagPillar) {
@@ -157,21 +193,29 @@ export default {
       }
     },
     changeColorPillar() {
+      this.flagPillar = true;
+      this.flagPillarName = "Полимерный столб";
       this.calcTotalPillar("RAL");
-      return (this.flagPillar = true);
+      this.calculatingPillar();
     },
     changeGalvanicPillar() {
+      this.flagPillar = false;
+      this.flagPillarName = "Оцинкованый столб";
       this.calcTotalPillar("ZN");
-      return (this.flagPillar = false);
+      this.calculatingPillar();
     },
     changeLengthPillar(item) {
       this.clearAllButtonPillar(this.btnLengthPillar);
-      this.flagLengthPillar = this.btnLengthPillar[item - 1].innId;
-      this.btnLengthPillar[item - 1].selected = true;
+      this.flagLengthPillar = this.btnLengthPillar[item].innId;
+      this.btnLengthPillar[item].selected = true;
       this.calculatingPillar();
     }
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .error {
+    color: darkred;
+  }
+</style>
