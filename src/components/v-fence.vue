@@ -23,17 +23,25 @@
         </v-row>
         <v-pillar
           :estimatePillar="outEstimate"
-          @sentToParentEvent="createEstimateFromPillar"
+          @sentToParentEvent="createEstimate"
           v-if="commodityItems[1].selected"
         />
         <v-gate
-          @sentToParentEventGate="createEstimateFromPillar"
+          @sentToParentEventGate="createEstimate"
           v-if="commodityItems[2].selected"
         />
-        <v-wicket v-if="commodityItems[3].selected" />
-        <v-bracing v-if="commodityItems[4].selected" />
-        <v-top v-if="commodityItems[5].selected" />
-        <v-wire v-if="commodityItems[6].selected" />
+        <v-wicket
+          @sentToParentEventWicket="createEstimate"
+          v-if="commodityItems[3].selected"
+        />
+        <v-top
+          @sentToParentEventTop="createEstimate"
+          v-if="commodityItems[4].selected"
+        />
+        <v-bracing
+          @sentToParentEventBracing="createEstimate"
+          v-if="commodityItems[5].selected"
+        />
         <v-row class="mt-4" v-if="commodityItems[0].selected">
           <div
             class="col-md-4 d-flex justify-start text-left align-content-start"
@@ -165,16 +173,20 @@
               <v-icon @click="itemDelete(item.id)">mdi-close</v-icon>
             </td>
             <td class="td-name">
-              {{ item.name }} {{ item.size }} | {{ item.thickness }} мм
+              {{ item.name }} | {{ item.size }} | {{ item.thickness }}
             </td>
             <td class="td-number">{{ item.number }} шт.</td>
             <td class="td-number">{{ item.price }} руб.</td>
+          </tr>
+          <tr v-if="totalEstimate">
+            <td colspan="2" class="td-number-span">ИТОГО</td>
+            <td class="td-number">{{ resultTotalEstimate }} руб.</td>
           </tr>
         </table>
       </v-col>
     </v-row>
     <v-row>
-      <button @click="further()" class="btn-items_selected">
+      <button @click="further()" class="btn-items_selected btn-further">
         Далее
       </button>
     </v-row>
@@ -187,7 +199,6 @@ import vGate from "./v-gate/v-gate";
 import vWicket from "./v-wicket/v-wicket";
 import vBracing from "./v-bracing/v-bracing";
 import vTop from "./v-top/v-top";
-import vWire from "./v-wire/v-wire";
 
 export default {
   name: "v-fence",
@@ -196,10 +207,11 @@ export default {
     vGate,
     vWicket,
     vBracing,
-    vTop,
-    vWire
+    vTop
   },
   data: () => ({
+    resultTotalEstimate: 0,
+    totalEstimate: false,
     flagFurther: 0,
     allSection: true,
     allPillar: false,
@@ -489,17 +501,12 @@ export default {
       },
       {
         id: 4,
-        name: "Крепления",
+        name: "Наконечник",
         selected: false
       },
       {
         id: 5,
-        name: "Навершина",
-        selected: false
-      },
-      {
-        id: 6,
-        name: "Егоза",
+        name: "Крепеж",
         selected: false
       }
     ]
@@ -510,7 +517,7 @@ export default {
     }
   },
   methods: {
-    createEstimateFromPillar(someData) {
+    createEstimate(someData) {
       this.tableEstimate = false;
       this.outEstimate[someData.id] = {
         id: someData.id,
@@ -520,16 +527,17 @@ export default {
         price: someData.price
       };
       this.tableEstimate = true;
+      this.calculatingEstimate();
     },
     further() {
-      if (this.flagFurther < 6) {
+      if (this.flagFurther < 5) {
         this.commodityItems[this.flagFurther].selected = false;
         this.commodityItems[this.flagFurther + 1].selected = true;
         this.flagFurther = this.flagFurther + 1;
       } else {
         this.flagFurther = 0;
         this.commodityItems[0].selected = true;
-        this.commodityItems[6].selected = false;
+        this.commodityItems[5].selected = false;
       }
     },
     changeCommodityItems(item) {
@@ -550,6 +558,7 @@ export default {
       this.tableEstimate = false;
       delete this.outEstimate[item];
       this.tableEstimate = true;
+      this.calculatingEstimate();
     },
     calculating() {
       this.tableEstimate = false;
@@ -583,6 +592,15 @@ export default {
           price: this.resultSection
         };
         this.tableEstimate = true;
+        this.calculatingEstimate();
+      }
+    },
+    calculatingEstimate() {
+      this.resultTotalEstimate = 0;
+      for (const key in this.outEstimate) {
+        this.resultTotalEstimate =
+          this.resultTotalEstimate + this.outEstimate[key].price;
+        this.totalEstimate = true;
       }
     },
     clearAllSection() {
@@ -662,7 +680,7 @@ export default {
 .btn-items_selected {
   background-color: #5cb071;
   padding: 6px;
-  width: 110px;
+  width: 120px;
   text-transform: uppercase;
   color: white;
   text-align: center;
@@ -672,7 +690,7 @@ export default {
 .btn-items {
   background-color: white;
   padding: 6px;
-  width: 110px;
+  width: 120px;
   text-transform: uppercase;
   color: #5cb071;
   text-align: center;
@@ -766,6 +784,11 @@ export default {
   text-transform: uppercase;
   border-radius: 5px;
   margin: 6px 0;
+}
+
+.btn-further {
+  position: fixed;
+  bottom: 30px;
 }
 
 .wrapper {

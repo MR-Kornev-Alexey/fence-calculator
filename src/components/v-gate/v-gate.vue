@@ -152,7 +152,8 @@ export default {
     flagMoveGate: "",
     flagLength: "",
     valueGate: 0,
-    flagGateName: "",
+    flagGateName:
+      "Ворота распашные Классик (каркас 60*40 | ZN | сетка Ø.4 | столб 80*80 | ушки под подвесной замок",
     flagGate: true,
     flagLengthGate: "",
     priceOneGate: 0,

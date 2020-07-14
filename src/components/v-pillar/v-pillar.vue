@@ -110,7 +110,7 @@ export default {
     valuePillar: 0,
     flagPillar: true,
     flagLengthPillar: "",
-    flagPillarName: "",
+    flagPillarName: "Полимерный столб",
     flagColor: "",
     pricePillar: {
       "2000": {
