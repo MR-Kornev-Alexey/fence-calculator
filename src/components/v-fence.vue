@@ -26,7 +26,10 @@
           @sentToParentEvent="createEstimateFromPillar"
           v-if="commodityItems[1].selected"
         />
-        <v-gate v-if="commodityItems[2].selected" />
+        <v-gate
+          @sentToParentEventGate="createEstimateFromPillar"
+          v-if="commodityItems[2].selected"
+        />
         <v-wicket v-if="commodityItems[3].selected" />
         <v-bracing v-if="commodityItems[4].selected" />
         <v-top v-if="commodityItems[5].selected" />

@@ -155,11 +155,11 @@ export default {
   }),
   methods: {
     calcTotalPillar(type) {
-      this.error = false
+      this.error = false;
       if (this.flagLengthPillar) {
         this.onePillar = this.pricePillar[this.flagLengthPillar][type];
-        if(type==="ZN"&& this.onePillar === 0 ){
-          this.error = true
+        if (type === "ZN" && this.onePillar === 0) {
+          this.error = true;
           return "";
         }
         this.resultPillar = this.onePillar * this.valuePillar;
@@ -215,7 +215,7 @@ export default {
 </script>
 
 <style scoped>
-  .error {
-    color: darkred;
-  }
+.error {
+  color: darkred;
+}
 </style>
