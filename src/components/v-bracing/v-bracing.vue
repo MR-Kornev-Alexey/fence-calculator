@@ -19,7 +19,7 @@
             <input
               type="range"
               min="0"
-              max="100"
+              max="300"
               step="1"
               v-model="valueBracing"
               @change="calculatingBracing()"
