@@ -1,16 +1,20 @@
 <template>
   <v-row class="mt-4">
-    <div class="col-md-4 d-flex justify-start text-left align-content-start">
+    <div
+      class="col-md-4 d-flex justify-start text-left justify-sm-center  align-content-start"
+    >
       <img
         class=" d-flex align-self-start justify-start"
-        src="assets/img/top.jpg"
+        src="https://calc-fense.firebaseapp.com/assets/img/top.jpg"
         height="160px"
         alt="wicket"
       />
     </div>
     <div class="col-md-8 d-block ">
       <v-row class="my-4">
-        Наконечник Y- образный
+        <v-col class="ml-2">
+          Наконечник Y- образный
+        </v-col>
       </v-row>
 
       <v-row>

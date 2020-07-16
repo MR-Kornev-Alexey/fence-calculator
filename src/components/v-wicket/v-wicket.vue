@@ -1,16 +1,20 @@
 <template>
   <v-row class="mt-4">
-    <div class="col-md-4 d-flex justify-start text-left align-content-start">
+    <div
+      class="col-md-4 d-flex justify-start text-left justify-sm-center  align-content-start"
+    >
       <img
         class=" d-flex align-self-start justify-start"
-        src="assets/img/wicket.png"
+        src="https://calc-fense.firebaseapp.com/assets/img/wicket.png"
         height="160px"
         alt="wicket"
       />
     </div>
     <div class="col-md-8 d-block ">
       <v-row>
-        Размер калитки ( высота x ширина )
+        <v-col class="ml-2">
+          Размер калитки ( высота x ширина )
+        </v-col>
       </v-row>
       <v-row class="justify-space-around mb-4 mt-4">
         <button

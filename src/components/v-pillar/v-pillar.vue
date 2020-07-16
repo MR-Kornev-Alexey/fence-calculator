@@ -1,17 +1,19 @@
 <template>
   <v-row class="mt-4">
-    <div class="col-md-4 d-flex justify-start text-left align-content-start">
+    <div
+      class="col-md-4 d-flex justify-start justify-sm-center text-left align-content-start"
+    >
       <img
         v-if="flagPillar"
         class=" d-flex align-self-start justify-start"
-        src="assets/img/pillar-colored.png"
+        src="https://calc-fense.firebaseapp.com/assets/img/pillar-colored.png"
         height="160px"
         alt=""
       />
       <img
         v-if="!flagPillar"
         class=" d-flex align-self-start justify-start"
-        src="assets/img/pillar-galv.png"
+        src="https://calc-fense.firebaseapp.com/assets/img/pillar-galv.png"
         height="160px"
         alt=""
       />
@@ -39,7 +41,9 @@
       </v-row>
       <v-row class="justify-space-around d-block mb-4">
         <v-row>
-          Длина столба
+          <v-col class="ml-2">
+            Длина столба
+          </v-col>
         </v-row>
         <v-row class="justify-space-between ">
           <button

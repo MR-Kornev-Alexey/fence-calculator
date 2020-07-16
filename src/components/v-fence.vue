@@ -1,11 +1,8 @@
 <template>
-  <v-container>
-    <v-row>
-      <h1 class="mt-4">Расчет забора</h1>
-    </v-row>
+  <v-container class="main-container">
     <v-row class="text-center justify-start mt-4">
-      <v-col class="justify-start d-block" cols="12" md="8">
-        <v-row class="justify-start">
+      <v-col class="justify-start  d-block" cols="12" md="8">
+        <v-row class="justify-start justify-sm-center">
           <div
             :key="`section-button-${index}`"
             v-for="(item, index) in commodityItems"
@@ -44,20 +41,20 @@
         />
         <v-row class="mt-4" v-if="commodityItems[0].selected">
           <div
-            class="col-md-4 d-flex justify-start text-left align-content-start"
+            class="col-md-4 d-flex justify-start justify-sm-center text-left align-content-start"
           >
             <img
               alt=""
               class=" d-flex align-self-start justify-start"
               height="160px"
-              src="assets/img/section-colored.png"
+              src="https://calc-fense.firebaseapp.com/assets/img/section-colored.png"
               v-if="flagSection"
             />
             <img
               alt=""
               class=" d-flex align-self-start justify-start"
               height="160px"
-              src="assets/img/section-galv.png"
+              src="https://calc-fense.firebaseapp.com/assets/img/section-galv.png"
               v-if="!flagSection"
             />
           </div>
@@ -84,7 +81,9 @@
             </v-row>
             <v-row class="justify-space-around d-block mb-4">
               <v-row>
-                Толщина прутка
+                <v-col class="ml-2">
+                  Толщина прутка
+                </v-col>
               </v-row>
               <v-row class="justify-space-between " v-if="flagSection">
                 <button
@@ -116,7 +115,9 @@
             </v-row>
             <v-row class="justify-space-around mb-4">
               <v-row>
-                Размер секции ( высота x ширина )
+                <v-col class="ml-2">
+                  Размер секции ( высота x ширина )
+                </v-col>
               </v-row>
               <v-row class="justify-space-around">
                 <button
@@ -653,6 +654,12 @@ export default {
 };
 </script>
 <style lang="scss">
+.v-application--wrap {
+  min-height: 500px !important;
+}
+.main-container {
+  position: relative;
+}
 .td-name {
   font-size: 12px;
   width: 44%;
@@ -787,10 +794,15 @@ export default {
 }
 
 .btn-further {
-  position: fixed;
-  bottom: 30px;
+  position: absolute;
+  top: 460px;
+  left: 80px;
 }
-
+@media only screen and (max-width: 1200px) {
+  .btn-further {
+    display: none;
+  }
+}
 .wrapper {
   label {
     margin: 20px 20px;

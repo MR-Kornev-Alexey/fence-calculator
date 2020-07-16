@@ -1,9 +1,11 @@
 <template>
   <v-row class="mt-4">
-    <div class="col-md-5 d-flex justify-start text-left align-content-start">
+    <div
+      class="col-md-5 d-flex justify-start justify-sm-center  text-left align-content-start"
+    >
       <img
         class=" d-flex align-self-start justify-start"
-        src="assets/img/vorota.png"
+        src="https://calc-fense.firebaseapp.com/assets/img/vorota.png"
         height="160px"
         alt=""
       />
@@ -30,7 +32,9 @@
         </button>
       </v-row>
       <v-row>
-        Размер ворот ( высота x ширина )
+        <v-col class="ml-2">
+          Размер ворот ( высота x ширина )
+        </v-col>
       </v-row>
       <v-row class="justify-space-between " v-if="flagGate">
         <button
