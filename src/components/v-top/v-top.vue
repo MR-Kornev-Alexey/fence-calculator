@@ -4,10 +4,10 @@
       class="col-md-4 d-flex justify-start text-left justify-sm-center  align-content-start"
     >
       <img
-        class=" d-flex align-self-start justify-start"
-        src="https://calc-fense.firebaseapp.com/assets/img/top.jpg"
-        height="160px"
         alt="wicket"
+        class=" d-flex align-self-start justify-start"
+        height="160px"
+        src="https://calc-fense.firebaseapp.com/assets/img/top.jpg"
       />
     </div>
     <div class="col-md-8 d-block ">
@@ -21,20 +21,21 @@
         <div class="wrapper d-block">
           <label class="mb-4">
             <input
-              type="range"
-              min="0"
-              max="100"
-              step="1"
-              v-model="valueTop"
               @change="calculatingTop()"
+              class="my-5"
+              max="100"
+              min="0"
+              step="1"
+              type="range"
+              v-model="valueTop"
             />
           </label>
           <label>
             <input
+              @change="calculatingTop()"
               class="input-number"
               type="number"
               v-model="valueTop"
-              @change="calculatingTop()"
             />
           </label>
           <span>Итого {{ valueTop }} шт. </span>

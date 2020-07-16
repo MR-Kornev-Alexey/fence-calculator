@@ -4,10 +4,10 @@
       class="col-md-4 d-flex justify-start text-left justify-sm-center  align-content-start"
     >
       <img
-        class=" d-flex align-self-start justify-start"
-        src="https://calc-fense.firebaseapp.com/assets/img/bracing.jpg"
-        height="160px"
         alt="wicket"
+        class=" d-flex align-self-start justify-start"
+        height="160px"
+        src="https://calc-fense.firebaseapp.com/assets/img/bracing.jpg"
       />
     </div>
     <div class="col-md-8 d-block ">
@@ -20,20 +20,21 @@
         <div class="wrapper d-block">
           <label class="mb-4">
             <input
-              type="range"
-              min="0"
-              max="300"
-              step="1"
-              v-model="valueBracing"
               @change="calculatingBracing()"
+              class="my-5"
+              max="300"
+              min="0"
+              step="1"
+              type="range"
+              v-model="valueBracing"
             />
           </label>
           <label>
             <input
+              @change="calculatingBracing()"
               class="input-number"
               type="number"
               v-model="valueBracing"
-              @change="calculatingBracing()"
             />
           </label>
           <span>Итого {{ valueBracing }} шт. </span>

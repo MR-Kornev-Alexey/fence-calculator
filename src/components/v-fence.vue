@@ -135,9 +135,10 @@
             </v-row>
             <v-row>
               <div class="wrapper d-block">
-                <label class="mb-4">
+                <label>
                   <input
                     @change="calculating(value)"
+                    class="my-5"
                     max="100"
                     min="0"
                     step="1"
@@ -148,7 +149,7 @@
                 <label>
                   <input
                     @change="calculating()"
-                    class="input-number"
+                    class="input-number "
                     type="number"
                     v-model="value"
                   />
@@ -180,7 +181,7 @@
             <td class="td-number">{{ item.price }} руб.</td>
           </tr>
           <tr v-if="totalEstimate">
-            <td colspan="2" class="td-number-span">ИТОГО</td>
+            <td class="td-number-span" colspan="2">ИТОГО</td>
             <td class="td-number">{{ resultTotalEstimate }} руб.</td>
           </tr>
         </table>
@@ -654,12 +655,128 @@ export default {
 };
 </script>
 <style lang="scss">
+/*для ползунка */
+input[type="range"] {
+  -webkit-appearance: none; /* Скрывает слайдер, чтобы можно было создать свой */
+  width: 100%; /* Указание параметра ширины требуется для Firefox. */
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type="range"]:focus {
+  outline: none; /* Убирает голубую границу у элемента. Хотя, возможно, и стоит создавать некоторое оформления для состояния фокуса в целях обеспечения доступности. */
+}
+
+input[type="range"]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+  background: transparent; /* Скрывает слайдер, чтобы можно было добавить собственные стили. */
+  border-color: transparent;
+  color: transparent;
+}
+
+/* Специальные правила для браузеров на движках WebKit/Blink */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  margin-top: -14px; /* Вам нужно указать значение для поля в Chrome, но в Firefox и IE это происходит автоматически */
+  box-shadow: 1px 1px 1px #13351c, 0px 0px 1px #14361d;
+  border: 1px solid #5baf70;
+}
+
+/* Тоже самое для Firefox */
+input[type="range"]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #13351c, 0px 0px 1px #14361d;
+  border: 1px solid #5baf70;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+/* Тоже самое для IE */
+input[type="range"]::-ms-thumb {
+  box-shadow: 1px 1px 1px #13351c, 0px 0px 1px #14361d;
+  border: 1px solid #5baf70;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #5baf70;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: #5baf70;
+}
+
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #5baf70;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type="range"]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+}
+
+input[type="range"]::-ms-fill-lower {
+  background: #5baf70;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type="range"]:focus::-ms-fill-lower {
+  background: #5baf70;
+}
+
+input[type="range"]::-ms-fill-upper {
+  background: #5baf70;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type="range"]:focus::-ms-fill-upper {
+  background: #5baf70;
+}
+
+/* конец блока для ползунка */
 .v-application--wrap {
   min-height: 500px !important;
 }
+
 .main-container {
   position: relative;
 }
+
 .td-name {
   font-size: 12px;
   width: 44%;
@@ -795,14 +912,16 @@ export default {
 
 .btn-further {
   position: absolute;
-  top: 460px;
+  top: 560px;
   left: 80px;
 }
+
 @media only screen and (max-width: 1200px) {
   .btn-further {
     display: none;
   }
 }
+
 .wrapper {
   label {
     margin: 20px 20px;

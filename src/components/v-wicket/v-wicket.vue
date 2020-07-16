@@ -4,10 +4,10 @@
       class="col-md-4 d-flex justify-start text-left justify-sm-center  align-content-start"
     >
       <img
-        class=" d-flex align-self-start justify-start"
-        src="https://calc-fense.firebaseapp.com/assets/img/wicket.png"
-        height="160px"
         alt="wicket"
+        class=" d-flex align-self-start justify-start"
+        height="160px"
+        src="https://calc-fense.firebaseapp.com/assets/img/wicket.png"
       />
     </div>
     <div class="col-md-8 d-block ">
@@ -18,13 +18,13 @@
       </v-row>
       <v-row class="justify-space-around mb-4 mt-4">
         <button
-          v-for="item in btnLengthWicket"
-          :key="item.id"
           :class="[
             { 'btn-items-size_selected': item.selected },
             { 'btn-items-size': !item.selected }
           ]"
+          :key="item.id"
           @click="changeLengthWicket(item.id)"
+          v-for="item in btnLengthWicket"
         >
           {{ item.name }}
         </button>
@@ -33,20 +33,21 @@
         <div class="wrapper d-block">
           <label class="mb-4">
             <input
-              type="range"
-              min="0"
-              max="100"
-              step="1"
-              v-model="valueWicket"
               @change="calculatingWicket()"
+              class="my-5"
+              max="100"
+              min="0"
+              step="1"
+              type="range"
+              v-model="valueWicket"
             />
           </label>
           <label>
             <input
+              @change="calculatingWicket()"
               class="input-number"
               type="number"
               v-model="valueWicket"
-              @change="calculatingWicket()"
             />
           </label>
           <span>Итого {{ valueWicket }} калиток </span>

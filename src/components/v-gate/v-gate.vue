@@ -4,10 +4,10 @@
       class="col-md-5 d-flex justify-start justify-sm-center  text-left align-content-start"
     >
       <img
-        class=" d-flex align-self-start justify-start"
-        src="https://calc-fense.firebaseapp.com/assets/img/vorota.png"
-        height="160px"
         alt=""
+        class=" d-flex align-self-start justify-start"
+        height="160px"
+        src="https://calc-fense.firebaseapp.com/assets/img/vorota.png"
       />
     </div>
     <div class="col-md-7 d-block ">
@@ -38,26 +38,26 @@
       </v-row>
       <v-row class="justify-space-between " v-if="flagGate">
         <button
-          v-for="item in btnLengthOpenGate"
-          :key="item.id"
           :class="[
             { 'btn-items-size_selected': item.selected },
             { 'btn-items-size': !item.selected }
           ]"
+          :key="item.id"
           @click="changeLengthOpenGate(item.id)"
+          v-for="item in btnLengthOpenGate"
         >
           {{ item.name }}
         </button>
       </v-row>
       <v-row class="justify-space-between" v-if="!flagGate">
         <button
-          v-for="item in btnLengthRollGate"
-          :key="item.id"
           :class="[
             { 'btn-items-size_selected': item.selected },
             { 'btn-items-size': !item.selected }
           ]"
+          :key="item.id"
           @click="changeLengthRollGate(item.id)"
+          v-for="item in btnLengthRollGate"
         >
           {{ item.name }}
         </button>
@@ -66,20 +66,21 @@
         <div class="wrapper d-block">
           <label class="mb-4">
             <input
-              type="range"
-              min="0"
-              max="100"
-              step="1"
-              v-model="valueGate"
               @change="calculatingGate()"
+              class="my-5"
+              max="100"
+              min="0"
+              step="1"
+              type="range"
+              v-model="valueGate"
             />
           </label>
           <label>
             <input
+              @change="calculatingGate()"
               class="input-number"
               type="number"
               v-model="valueGate"
-              @change="calculatingGate()"
             />
           </label>
           <span>Итого {{ valueGate }} ворот </span>
